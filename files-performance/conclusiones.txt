@@ -1,0 +1,79 @@
+RESUMEN
+
+Se ejecutó una prueba de carga al endpoint de login utilizando k6. La prueba simuló 20 iteraciones por segundo durante 2 minutos, con un máximo de 30 usuarios virtuales preasignados. Los resultados fueron positivos y todos los umbrales definidos se cumplieron.
+
+CONFIGURACIÓN DE LA PRUEBA
+
+Herramienta: k6 (Grafana k6)
+Tipo de ejecutor: constant-arrival-rate
+Tasa de llegada: 20 iteraciones por segundo
+Duración: 2 minutos
+VUs preasignados: 30
+VUs máximos permitidos: 50
+Usuarios de prueba cargados: 5 (desde archivo CSV)
+
+RESULTADOS OBTENIDOS
+
+Métricas de solicitudes HTTP
+
+Total de solicitudes: 2,401
+Solicitudes exitosas: 2,401 (100%)
+Solicitudes fallidas: 0 (0%)
+Tasa de solicitudes: 19.95 por segundo
+
+Tiempos de respuesta
+
+Promedio: 355.51 ms
+Mínimo: 320.82 ms
+Máximo: 702.99 ms
+Mediana: 352.42 ms
+Percentil 90: 373.50 ms
+Percentil 95: 381.10 ms
+
+Usuarios virtuales utilizados
+
+Mínimo: 6 VUs
+Máximo: 16 VUs
+VUs máximos configurados: 30
+
+VALIDACIÓN DE UMBRALES (THRESHOLDS)
+
+Se definieron dos umbrales para la prueba:
+
+1. Tasa de error menor al 3%
+   Resultado: 0.00%
+   Estado: CUMPLE
+
+2. Percentil 95 de duración menor a 1500 ms
+   Resultado: 381.10 ms
+   Estado: CUMPLE
+
+VALIDACIÓN DE CHECKS
+
+Se ejecutaron 7,203 checks en total, distribuidos en tres validaciones por cada iteración:
+
+1. Status es 2xx
+   Resultado: 100% exitosos
+   
+2. Tiempo de respuesta menor a 1500 ms
+   Resultado: 100% exitosos
+   
+3. Respuesta contiene token
+   Resultado: 100% exitosos
+
+Total de checks exitosos: 7,203 de 7,203 (100%)
+Total de checks fallidos: 0
+
+CONCLUSIONES
+
+La prueba de carga fue exitosa. El endpoint de login de la API demostró ser capaz de manejar 20 solicitudes por segundo de forma sostenida durante 2 minutos sin presentar errores ni degradación de rendimiento.
+
+Todos los umbrales definidos se cumplieron con margen:
+- La tasa de error fue 0% (umbral: menor a 3%)
+- El percentil 95 fue 381 ms (umbral: menor a 1500 ms)
+
+Es necesario probar con cargas más altas para encontrar el punto de ruptura.
+
+Solo se utilizaron 16 VUs como máximo de los 30 disponibles, esto significa que la prueba no estresó al máximo la configuración definida.
+
+La tasa de error de 0% y el 100% de éxito en todos los checks demuestran que el endpoint es estable bajo las condiciones probadas. No hubo timeouts, errores de conexión ni respuestas inesperadas.
