@@ -1,0 +1,5 @@
+testId,name,newName,category,categoryId,status,newStatus,photoUrl,tagName
+test1,Firulais,,Dogs,1,available,,https://images.dog.ceo/breeds/labrador/n02099712_3586.jpg,tag1
+test2,Firulais,,Dogs,1,available,,https://images.dog.ceo/breeds/golden-retriever/n02099601_3004.jpg,tag1
+test3,Firulais,Rex,Dogs,1,available,sold,https://images.dog.ceo/breeds/beagle/n02088364_11136.jpg,tag1
+test4,Rex,,Dogs,1,sold,,https://images.dog.ceo/breeds/poodle-toy/n02113624_189.jpg,tag1

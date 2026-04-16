@@ -1,0 +1,100 @@
+CONCLUSIONES - PRUEBAS END-TO-END (E2E)
+
+ALCANCE DE LAS PRUEBAS
+
+Prueba Principal: "Flujo de compra"
+
+Escenarios Validados:
+1. Agregar múltiples productos al carrito
+2. Visualizar productos en el carrito
+3. Completar formulario de facturación
+4. Finalizar compra y validar confirmación
+
+RESULTADOS POR ESCENARIO
+
+ESCENARIO 1: AGREGAR PRODUCTOS AL CARRITO
+
+Productos Probados:
+- Samsung Galaxy S7
+- Sony Vaio i5
+
+Resultados:
+- Producto 1 agregado exitosamente (Respuesta HTTP 200)
+- Producto 2 agregado exitosamente (Respuesta HTTP 200)
+- Ambas solicitudes completadas sin errores
+- Navegación entre módulos exitosa
+
+Estado: CUMPLE
+
+ESCENARIO 2: VISUALIZAR CARRITO
+
+Validaciones:
+- Página del carrito se carga correctamente
+- Encabezado "Products" visible
+- Samsung Galaxy S7 visible en la lista
+- Sony Vaio i5 visible en la lista
+- Todos los productos se muestran correctamente
+
+Estado: CUMPLE
+
+ESCENARIO 3: FORMULARIO DE FACTURACIÓN
+
+Datos Utilizados:
+- Nombre: Camilo
+- País: Colombia
+- Ciudad: Manizales
+- Tarjeta de Crédito: 1234567890123456
+- Mes: 12
+- Año: 2026
+
+Validaciones:
+- Campo Name: Se completa correctamente
+- Campo Country: Se completa correctamente
+- Campo City: Se completa correctamente
+- Campo Credit card: Se completa correctamente
+- Campo Month: Se completa correctamente
+- Campo Year: Se completa correctamente
+- Todos los campos retienen los datos correctamente
+
+Estado: CUMPLE
+
+ESCENARIO 4: FINALIZAR COMPRA
+
+Validaciones:
+- Botón "Purchase" clickeable y funcional
+- Confirmación de compra se muestra
+- Mensaje "Thank you for your purchase!" visible
+- Transacción completada exitosamente
+
+Estado: CUMPLE
+
+VALIDACIONES TÉCNICAS
+
+Validaciones de UI:
+- Elementos visibles cuando se esperan
+- Campos de formulario funcionan correctamente
+- Navegación entre módulos sin errores
+- Rendimiento de carga aceptable
+
+Validaciones de Datos:
+- Datos persisten correctamente
+- Valores de entrada se reflejan en UI
+- Información de facturación se mantiene
+- No hay pérdida de datos durante el flujo
+
+
+CONCLUSIONES
+
+El flujo de compra de Demoblaze funciona correctamente y cumple con todos
+los requisitos de funcionalidad validados:
+
+- El usuario puede agregar múltiples productos al carrito sin problemas
+- La visualización del carrito es clara y precisa
+- El formulario de facturación acepta correctamente todos los datos
+- La confirmación de compra se muestra apropiadamente
+- No se identificaron errores críticos
+
+La plataforma está lista para ser utilizada por usuarios reales. Se 
+recomienda continuar con pruebas adicionales para aumentar la cobertura
+y validar escenarios más complejos.
+

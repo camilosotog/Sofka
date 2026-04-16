@@ -1,0 +1,138 @@
+HALLAZGOS POR ENDPOINT - PetStore API (https://petstore.swagger.io/v2)
+
+ENDPOINT: POST /pet (Crear mascota)
+
+TC-01: Añadir una mascota a la tienda
+
+Comportamiento observado:
+- Status code: 200 OK
+- La API acepta el body completo (id, category, name, photoUrls, tags, status) y retorna el objeto creado con todos los campos.
+- El ID enviado en el request es respetado por la API y devuelto en la respuesta.
+
+Observación:
+La creación funciona correctamente. La API responde con 200 en lugar de 201 Created, que sería el código más apropiado según el estándar REST para indicar que un recurso fue creado exitosamente. Sin embargo, la respuesta incluye el objeto completo, lo cual facilita la verificación.
+
+Datos de prueba (desde CSV):
+- Nombre: Firulais, Categoría: Dogs, Status: available
+
+---
+
+ENDPOINT: GET /pet/{petId} (Consultar por ID)
+
+TC-02: Consultar la mascota ingresada previamente (Búsqueda por ID)
+
+Comportamiento observado:
+- Status code: 200 OK
+- La API retorna el objeto completo de la mascota usando el petId generado en TC-01.
+- Todos los campos coinciden con los enviados en la creación (nombre, categoría, status, tags).
+
+Observación:
+La consulta por ID funciona de forma consistente. El recurso creado en TC-01 es inmediatamente consultable, lo que indica que no hay delay de persistencia. La respuesta mantiene la estructura JSON esperada.
+
+Variables compartidas:
+- petId: extraído de la respuesta del TC-01 (flujo serial)
+
+---
+
+ENDPOINT: PUT /pet (Actualizar mascota)
+
+TC-03: Actualizar el nombre de la mascota y el estatus a "sold"
+
+Comportamiento observado:
+- Status code: 200 OK
+- Se actualizó el nombre de "Firulais" a "Rex" y el status de "available" a "sold".
+- La API retorna el objeto actualizado con los nuevos valores.
+- El ID se mantiene igual tras la actualización.
+
+Observación:
+La actualización funciona correctamente mediante PUT, reemplazando el recurso completo. Se requiere enviar todos los campos del objeto, no solo los modificados (no soporta PATCH parcial en este endpoint). La API no valida si la mascota existe antes de actualizar; si el ID no existe, crea un nuevo recurso (comportamiento upsert), lo cual podría ser problemático en escenarios reales.
+
+Datos de prueba (desde CSV):
+- Nombre anterior: Firulais → Nombre nuevo: Rex
+- Status anterior: available → Status nuevo: sold
+
+---
+
+ENDPOINT: GET /pet/findByStatus (Buscar por estatus)
+
+TC-04: Consultar la mascota modificada por estatus (Búsqueda por estatus)
+
+Comportamiento observado:
+- Status code: 200 OK
+- La API retorna un array de mascotas filtradas por el query parameter status=sold.
+- Nuestra mascota (Rex, con el petId del TC-01) aparece dentro de los resultados.
+- Todas las mascotas retornadas tienen status "sold".
+
+Observación:
+La búsqueda por estatus funciona correctamente y filtra de manera consistente. El array de resultados puede ser grande ya que es una API pública compartida por múltiples usuarios. Se validó que TODAS las mascotas retornadas tengan el status solicitado, confirmando que el filtro es confiable.
+
+Variables compartidas:
+- petId: del TC-01, petName: actualizado en TC-03 a "Rex"
+
+---
+
+PROBLEMAS IDENTIFICADOS
+
+1. Código de respuesta en creación
+La API retorna 200 OK al crear una mascota (POST /pet). El estándar REST indica que debería retornar 201 Created para diferenciar una creación exitosa de una simple operación exitosa.
+
+2. Comportamiento upsert en PUT
+El endpoint PUT /pet no valida si el recurso existe previamente. Si se envía un ID inexistente, la API crea un nuevo recurso en lugar de retornar 404 Not Found. Esto puede generar datos duplicados o inconsistentes.
+
+3. Sin autenticación obligatoria
+Los endpoints permiten crear, modificar y consultar mascotas sin autenticación. Aunque la API provee un mecanismo de API Key, no lo exige, lo que en un entorno productivo sería una vulnerabilidad de seguridad.
+
+4. Sin validación de datos
+La API no valida campos obligatorios. Es posible crear una mascota sin nombre o sin photoUrls, lo cual podría generar datos incompletos en la base de datos.
+
+---
+
+VALIDACIONES REALIZADAS
+
+TC-01 (POST /pet):
+- Status code 200
+- ID definido en la respuesta
+- Nombre coincide con el dato del CSV (Firulais)
+- Status coincide con el dato del CSV (available)
+
+TC-02 (GET /pet/{petId}):
+- Status code 200
+- ID coincide con el creado en TC-01
+- Nombre coincide (Firulais)
+- Status coincide (available)
+
+TC-03 (PUT /pet):
+- Status code 200
+- ID se mantiene igual
+- Nombre actualizado a Rex (desde CSV)
+- Status actualizado a sold (desde CSV)
+
+TC-04 (GET /pet/findByStatus?status=sold):
+- Status code 200
+- Respuesta es un array
+- Array tiene al menos un resultado
+- Todas las mascotas tienen status "sold"
+- Nuestra mascota (Rex) está en los resultados
+
+---
+
+ESTRUCTURA TÉCNICA DE LOS TESTS
+
+- Framework: Playwright Test con TypeScript
+- Ejecución: test.describe.serial() para flujo secuencial (TC-01 → TC-02 → TC-03 → TC-04)
+- Datos: Externalizados en CSV (tests/data/csv/petstore-tests.csv), leídos con csv-reader.ts
+- Variables compartidas: petId y petName se pasan entre tests como variables de módulo
+- Reporte: Cada test tiene 4 steps (Entradas, Salidas capturadas, Variables/fixtures, Assertions) con datos adjuntos en JSON via test.info().attach()
+- Reporters: HTML, List y JSON
+
+---
+
+CONCLUSIONES
+
+Las pruebas de API contra PetStore Swagger confirmaron que el flujo CRUD completo (Crear → Consultar → Actualizar → Buscar) funciona correctamente. Los 4 endpoints responden con status 200 y retornan los datos esperados.
+
+Los tests se diseñaron como un flujo serial donde cada caso depende del anterior: TC-01 crea la mascota y extrae el petId, TC-02 la consulta por ese ID, TC-03 la actualiza, y TC-04 verifica que aparezca en la búsqueda por status. Esto simula un escenario real de uso de la API.
+
+Los datos de prueba están externalizados en un archivo CSV, evitando valores quemados en el código y facilitando la modificación de datos sin alterar los tests.
+
+Los hallazgos principales son: el uso de 200 en lugar de 201 para creación, el comportamiento upsert del PUT que no valida existencia, y la falta de autenticación obligatoria. Estos no son bugs funcionales, sino observaciones de diseño que deberían considerarse en una API productiva.

@@ -5,6 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
+    "test:e2e": "playwright test tests/e2e",
+    "test:api": "playwright test tests/api/petstore.spec.ts",
+    "test:api:datadriven": "playwright test tests/api/petstore-datadriven.spec.ts",
+    "test:api:all": "playwright test tests/api",
+    "test:api:report": "playwright test tests/api && playwright show-report",
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
     "test:headed": "playwright test --headed",
@@ -12,7 +17,8 @@
     "test:firefox": "playwright test --project=firefox",
     "test:webkit": "playwright test --project=webkit",
     "codegen": "playwright codegen",
-    "report": "playwright show-report"
+    "report": "playwright show-report",
+    "report:api": "playwright show-report"
   },
   "keywords": [
     "playwright",
