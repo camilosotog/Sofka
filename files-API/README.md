@@ -1,138 +1,106 @@
-README - API Tests
+# API Tests - Demoblaze
 
-Este directorio contiene las pruebas automatizadas para los endpoints de API de Demoblaze usando Postman.
+Este directorio contiene las pruebas automatizadas para los endpoints de API de Demoblaze usando **Playwright** con **TypeScript**.
 
-ESTRUCTURA DEL PROYECTO
+---
 
-postman/
-  collections/          - Collections de Postman con las pruebas
-  environments/         - Configuraciones de entorno (testing)
-  globals/              - Variables globales compartidas entre collections
+## Estructura de Pruebas
 
-REQUISITOS
+La carpeta `tests/api/` contiene los archivos de prueba:
 
-- Postman Desktop (ultima versión)
-- El repositorio clonado en tu máquina local
+```
+tests/
+└── api/
+    └── petstore.spec.ts         # Tests de API del PetStore
+```
 
-INSTALACIÓN
+---
 
-1. Descarga Postman desde https://www.postman.com/downloads/
-2. Abre Postman
-3. Importa los archivos desde postman/
+## Requisitos
 
-IMPORTAR EN POSTMAN
+- Node.js (versión 18+)
+- npm instalado
+- Playwright instalado (incluido en devDependencies)
 
-Pasos para importar:
+---
 
-1. Abre Postman
-2. Haz clic en "Import" (esquina superior izquierda)
-3. Selecciona "Files"
-4. Ve a la carpeta "postman/collections" y selecciona:
-   - Demoblaze - Auth API Tests.postman_collection.json
-5. Repite el proceso para importar el entorno en "postman/environments"
-6. Repite el proceso para importar los globals en "postman/globals"
+## Instalación
 
-CONFIGURACIÓN DE VARIABLES
+1. Clona el repositorio
+2. Instala las dependencias:
+   ```bash
+   npm install
+   ```
 
-VARIABLES DE ENTORNO
+---
 
-El archivo test-env.postman_environment.json contiene las siguientes variables:
+## Cómo Ejecutar las Pruebas
 
-BASE_URL            - URL base de la API (https://api.demoblaze.com/)
-SIGNUP_SCENARIO     - success / error
-LOGIN_SCENARIO      - success / error_user / error_pass
+### Ejecutar pruebas de API específicas
 
-Para cambiar estas variables:
+```bash
+npm run test:api
+```
 
-1. En Postman, ve a "Environments" (lado izquierdo)
-2. Selecciona "test-env" 
-3. Modifica los valores según necesites:
-   - Haz clic en la variable para editarla
-   - Ingresa el nuevo valor en la columna "INITIAL VALUE" o "CURRENT VALUE"
-4. Haz clic en "Save" o presiona Ctrl+S
+### Ejecutar todas las pruebas de API
 
-Para desactivar una variable:
-- Desmarca el checkbox al lado de su nombre
+```bash
+npm run test:api:all
+```
 
-VARIABLES GLOBALES
+### Ejecutar pruebas con reportes
 
-El archivo workspace.postman_globals.json contiene variables compartidas que
-se aplican a todas las colecciones. Verifica este archivo para ver si hay
-variables globales configuradas que necesites usar.
+```bash
+npm run test:api:report
+```
 
-username    - Se genera en los prerequest o postresponse
-password    - Se genera en los prerequest o postresponse
+### Ejecutar en modo UI (interactivo)
 
-Para acceder a las variables globales:
-1. En Postman, haz clic en el icono de engranaje (Settings)
-2. Ve a la pestaña "Globals"
-3. Aquí puedes agregar o modificar variables globales
+```bash
+npm run test:ui
+```
 
-EJECUTAR LAS PRUEBAS
+### Ejecutar en modo debug
 
-Opción 1: Ejecución manual en Postman
+```bash
+npm run test:debug
+```
 
-1. Abre la collection "Demoblaze - Auth API Tests"
-2. Selecciona el entorno "test-env" en el dropdown superior derecho
-3. Expande las carpetas para ver las peticiones
-4. Haz clic en cualquier petición y presiona "Send"
+---
 
-Opción 2: Ejecutar toda la colección
+## Estructura de las Pruebas
 
-1. Haz clic derecho en la collection "Demoblaze - Auth API Tests"
-2. Selecciona "Run collection"
-3. Asegúrate de que el entorno "test-env" está seleccionado
-4. Haz clic en "Run Demoblaze - Auth API Tests"
-5. Se abrirá una ventana con los resultados de todas las pruebas
+Los tests están organizados con la siguiente estructura:
 
-Opción 3: Ejecución mediante Newman (CLI)
+- **petstore.spec.ts** - Tests de endpoints de API del PetStore
+  - Validaciones de status HTTP
+  - Validación de estructura de respuesta
+  - Validación de datos en respuesta
+  - Manejo de errores
 
-Newman es la herramienta de línea de comandos de Postman.
+---
 
-Instalación:
-npm install -g newman
+## Reportes
 
-Ejecutar pruebas:
-newman run postman/collections/Demoblaze\ -\ Auth\ API\ Tests.postman_collection.json \
-  -e postman/environments/test-env.postman_environment.json \
-  -g postman/globals/workspace.postman_globals.json
+Los reportes se generan automáticamente en:
 
-REPORTES DE NEWMAN
+- **playwright-report/** - Reporte HTML interactivo
+- **test-results/results.json** - Resultados en formato JSON
 
-Para generar reportes HTML visuales con Newman, instala el reporter htmlextra:
+Para visualizar el reporte HTML:
 
-Instalación del reporter HTML:
-npm install -g newman-reporter-htmlextra
+```bash
+npm run report
+```
 
-Generar reporte HTML:
-newman run "postman/collections/Demoblaze - Auth API Tests.postman_collection.json" ^
-  -e "postman/environments/test-env.postman_environment.json" ^
-  -g "postman/globals/workspace.postman_globals.json" ^
-  -r htmlextra ^
-  --reporter-htmlextra-export "reports/demoblaze-report.html" ^
-  --reporter-htmlextra-title "Demoblaze API Tests Report"
+---
 
-Generar reporte JSON
-newman run "postman/collections/Demoblaze - Auth API Tests.postman_collection.json" ^
-  -e "postman/environments/test-env.postman_environment.json" ^
-  -g "postman/globals/workspace.postman_globals.json" ^
-  -r json ^
-  --reporter-json-export "reports/results.json"
+## Base URL
 
-Los reportes se guardan en la carpeta reports/
+La base URL está configurada en `playwright.config.ts`:
 
-ESTRUCTURA DE LAS PRUEBAS
+```
+https://www.demoblaze.com
+```
 
-Cada petición contiene:
-
-Pre-request Script - Código que se ejecuta antes de enviar la petición
-  - Configura valores dinámicos
-  - Prepara datos para la petición
-  - Valida estado anterior
-
-Tests - Validaciones que se ejecutan después de recibir la respuesta
-  - Verifica status HTTP
-  - Valida estructura de respuesta
-  - Extrae valores para usar en otras peticiones
-  - Genera reportes
-
+---

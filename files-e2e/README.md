@@ -106,28 +106,36 @@ Carpeta "servicios" con funciones reutilizables.
 
 ### playwright.config.ts
 
-Archivo de configuración principal.
+Archivo de configuración principal ubicado en la raíz del proyecto.
 
 #### **Directorio de Tests**
 
-testDir: './tests/e2e'
+```typescript
+testDir: "./tests";
+```
 
-Especifica que las pruebas se encuentran en la carpeta 'tests/e2e/'.
+Especifica que las pruebas se encuentran en la carpeta `tests/`. Las pruebas E2E se distribuyen en `tests/e2e/` y las pruebas de API en `tests/api/`.
 
 ---
 
 #### **Ejecución Paralela**
 
-fullyParallel: false
+```typescript
+fullyParallel: true;
+```
 
-No permite ejecutare todas las pruebas en paralelo.
+Las pruebas se ejecutan en paralelo para optimizar el tiempo de ejecución.
 
 ---
 
 #### **Reintentos**
 
-- **Local:** 0 reintentos (fallan inmediatamente)
-- **CI:** 2 reintentos automáticos en caso de fallo de alguno de los test
+```typescript
+retries: process.env.CI ? 2 : 0;
+```
+
+- **Local:** 0 reintentos (fallan inmediatamente para feedback rápido)
+- **CI:** 2 reintentos automáticos en caso de fallo de alguna prueba
 
 ---
 
@@ -154,13 +162,16 @@ Genera un reporte HTML interactivo en 'playwright-report/'.
 
 #### **Browsers**
 
-Configuración para ejecutar pruebas en múltiples navegadores:
+Configuración para ejecutar pruebas en navegadores:
 
 **Navegadores activos:**
 
 - **Chromium** (Chrome/Edge)
-- **Firefox**
-- **WebKit** (Safari)
+
+**Navegadores disponibles (descomentados en playwright.config.ts):**
+
+- Firefox
+- WebKit (Safari)
 
 **Navegadores comentados:**
 
@@ -181,21 +192,41 @@ Configuración para ejecutar pruebas en múltiples navegadores:
 
 ## Ejecución de Pruebas
 
-### Ingresar a carpeta /e2e-ui/
-
-cd e2e-ui
-
 ### Instalar dependencias
 
+```bash
 npm install
+```
 
 ### Ejecutar todas las pruebas
 
+```bash
 npm run test
+```
 
-### Ejecutar pruebas con interfaz
+### Ejecutar pruebas E2E específicamente
 
-npm run ui
+```bash
+npm run test:e2e
+```
+
+### Ejecutar pruebas con interfaz interactiva
+
+```bash
+npm run test:ui
+```
+
+### Ejecutar pruebas en modo debug
+
+```bash
+npm run test:debug
+```
+
+### Ejecutar pruebas con navegador visible
+
+```bash
+npm run test:headed
+```
 
 ---
 
@@ -205,7 +236,7 @@ npm run ui
 
 Después de ejecutar las pruebas, se genera un reporte en:
 
-- playwright-report/index.html
+- `playwright-report/index.html`
 
 **Características del reporte:**
 
@@ -213,12 +244,13 @@ Después de ejecutar las pruebas, se genera un reporte en:
 - Tiempos de ejecución
 - Capturas de pantalla de pasos fallidos
 - Videos de pruebas
-- Trazas de Playwright (trace=)
+- Trazas de Playwright
 
 ### Ver reporte
 
-- npx playwright show-report
-- npm run report
+```bash
+npm run report
+```
 
 ---
 
@@ -227,6 +259,7 @@ Después de ejecutar las pruebas, se genera un reporte en:
 - El test utiliza **Page Object Model (POM)** para separar lógica de pruebas (expect)
 - Los datos se centralizan en carpetas `data/` para mantenibilidad
 - El patrón de pruebas sigue estructura de **test.step** para mejorar reportes
-- Las pruebas se ejecutan contra **3 navegadores** de forma independiente
+- Las pruebas se ejecutan en **Chromium** por defecto
+- Descomentar navegadores en `playwright.config.ts` para ejecutar en Firefox o WebKit
 
 ---
