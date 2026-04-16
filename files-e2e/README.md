@@ -17,7 +17,7 @@ La carpeta `tests/` contiene toda la estructura necesaria para ejecutar pruebas,
 1.3. helpers        # Utilidades y funciones reutilizables durante todo el proyecto
 1.4. interfaces     # Interfaces
 1.5 pages           # Page Object Model - clases de páginas
-       
+
 ```
 
 ---
@@ -27,40 +27,51 @@ La carpeta `tests/` contiene toda la estructura necesaria para ejecutar pruebas,
 Esta carpeta contiene archivos con datos estáticos utilizados en las pruebas. Los datos se separan por constantes para facilitar el mantenimiento.
 
 #### **bill.data.ts**
+
 Define los datos de facturación para completar el formulario de compra.
 
 #### **product.data.ts**
+
 Define los productos que se utilizan en las pruebas de carrito.
 
 #### **module.data.ts**
+
 Define los módulos de la aplicación a los que se navega durante las pruebas.
 
 #### **user.data.ts**
+
 Define las credenciales de usuario para autenticación
 
 ---
+
 ### interfaces
 
 Esta carpeta contiene interfaces que definen la estructura de los datos (/data) utilizados en las pruebas, brindando tipado.
 
 #### **bill.interface.ts**
+
 Define la estructura de datos para la facturación.
 
 #### **product.interface.ts**
+
 Define la estructura de datos para un producto.
 
 #### **module.interface.ts**
+
 Define la estructura de datos para un módulo de la aplicación.
 
 #### **user.interface.ts**
+
 Define la estructura de datos para credenciales de usuario login.
 
 ---
+
 ### e2e
 
 Esta carpeta contiene los archivos `.spec.ts` que definen las pruebas o validaciones.
 
 #### **shopping.spec.ts**
+
 Especificación principal que valida el flujo completo de compra.
 
 **Test Suite:** "Validación de funciones de compra en demoblaze"
@@ -76,9 +87,11 @@ Valida el flujo completo desde agregar productos hasta completar la compra.
 Patron Page Object Model para encapsular interacciones.
 
 #### **buy.page.ts**
+
 Clase que representa la página de compra y encapsula todas las acciones relacionadas con compras.
 
 #### **login.page.ts**
+
 Clase para interacciones de login
 
 ---
@@ -133,7 +146,6 @@ Genera un reporte HTML interactivo en 'playwright-report/'.
 
 #### **Configuración Compartida (use)**
 
-- **baseURL:** URL base desde variables de .env
 - **trace:** Genera trazas de Playwright solo al reintentar pruebas fallidas
 - **video:** Grabación de video
 - **screenshot:** Captura de pantalla luego del reporte
@@ -145,11 +157,13 @@ Genera un reporte HTML interactivo en 'playwright-report/'.
 Configuración para ejecutar pruebas en múltiples navegadores:
 
 **Navegadores activos:**
+
 - **Chromium** (Chrome/Edge)
 - **Firefox**
 - **WebKit** (Safari)
 
 **Navegadores comentados:**
+
 - Mobile Chrome (Pixel 5)
 - Mobile Safari (iPhone 12)
 - Microsoft Edge
@@ -159,7 +173,7 @@ Configuración para ejecutar pruebas en múltiples navegadores:
 
 #### **Variables de Ambiente**
 
-- BASE_URL=https://www.demoblaze.com  (unica pagina para todo el proyecto)
+- BASE_URL=https://www.demoblaze.com (unica pagina para todo el proyecto)
 - VIDEO=on (video siempre activo)
 - SCREENSHOT=on (capturas siempre activas)
 
@@ -191,10 +205,10 @@ npm run ui
 
 Después de ejecutar las pruebas, se genera un reporte en:
 
-
 - playwright-report/index.html
 
 **Características del reporte:**
+
 - Resumen de pruebas (pasadas/fallidas)
 - Tiempos de ejecución
 - Capturas de pantalla de pasos fallidos
@@ -216,5 +230,3 @@ Después de ejecutar las pruebas, se genera un reporte en:
 - Las pruebas se ejecutan contra **3 navegadores** de forma independiente
 
 ---
-
-
