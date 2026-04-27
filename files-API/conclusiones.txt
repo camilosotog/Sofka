@@ -135,10 +135,20 @@ ESTRUCTURA TÉCNICA DE LOS TESTS
 
 CONCLUSIONES
 
-Las pruebas de API contra PetStore Swagger confirmaron que el flujo CRUD completo (Crear → Consultar → Actualizar → Buscar) funciona correctamente. Los 4 endpoints responden con status 200 y retornan los datos esperados.
+Las pruebas de API contra PetStore Swagger confirmaron que el flujo CRUD completo 
+(Crear → Consultar → Actualizar → Buscar) funciona correctamente. Los 4 endpoints 
+responden con status 200 y retornan los datos esperados.
 
-Los tests se diseñaron como un flujo serial donde cada caso depende del anterior: TC-01 crea la mascota y extrae el petId, TC-02 la consulta por ese ID, TC-03 la actualiza, y TC-04 verifica que aparezca en la búsqueda por status. Esto simula un escenario real de uso de la API.
+Los tests se diseñaron como un flujo serial donde cada caso depende del anterior: 
+TC-01 crea la mascota y extrae el petId, TC-02 la consulta por ese ID, TC-03 la actualiza,
+y TC-04 verifica que aparezca en la búsqueda por status. Esto simula un escenario real de uso
+de la API.
 
-Los datos de prueba están externalizados en un archivo CSV, evitando valores quemados en el código y facilitando la modificación de datos sin alterar los tests.
+Los datos de prueba están externalizados en un archivo CSV, evitando valores quemados en el 
+código y facilitando la modificación de datos sin alterar los tests.
 
-Los hallazgos principales son: el uso de 200 en lugar de 201 para creación, el comportamiento upsert del PUT que no valida existencia, y la falta de autenticación obligatoria. Estos no son bugs funcionales, sino observaciones de diseño que deberían considerarse en una API productiva.
+Los hallazgos principales son: el uso de 200 en lugar de 201 para creación, el comportamiento
+upsert del PUT que no valida existencia, y la falta de autenticación obligatoria, también la falta
+de manejo de códigos de error correctos, dado que en los casos negativos casi siempre responde 200
+cuando no debería. Estos no son
+bugs funcionales, sino observaciones de diseño que deberían considerarse en una API productiva.
