@@ -1,27 +1,16 @@
 import { test, expect } from "@playwright/test";
 import { readCsv } from "../../src/csv-reader";
+import { PetTestData } from "../interfaces/pet.interface";
 
 const BASE_URL = "https://petstore.swagger.io/v2";
-
-interface PetTestData {
-  [key: string]: string;
-  testId: string;
-  name: string;
-  newName: string;
-  category: string;
-  categoryId: string;
-  status: string;
-  newStatus: string;
-  photoUrl: string;
-  tagName: string;
-}
 
 let petId: number;
 let petName: string;
 let testData: PetTestData[];
 
 function attach(testInfo: any, name: string, body: any) {
-  const content = typeof body === "string" ? body : JSON.stringify(body, null, 2);
+  const content =
+    typeof body === "string" ? body : JSON.stringify(body, null, 2);
   testInfo.attach(name, { body: content, contentType: "application/json" });
 }
 
@@ -83,11 +72,15 @@ test.describe.serial("PetStore API Tests", () => {
       expect(response.status(), "Status code debe ser 200").toBe(200);
       expect(responseBody.id, "ID debe estar definido").toBeDefined();
       expect(responseBody.name, `Nombre debe ser ${csv.name}`).toBe(csv.name);
-      expect(responseBody.status, `Status debe ser ${csv.status}`).toBe(csv.status);
+      expect(responseBody.status, `Status debe ser ${csv.status}`).toBe(
+        csv.status,
+      );
     });
   });
 
-  test("TC-02: Consultar la mascota ingresada previamente (Búsqueda por ID)", async ({ request }) => {
+  test("TC-02: Consultar la mascota ingresada previamente (Búsqueda por ID)", async ({
+    request,
+  }) => {
     const csv = testData.find((d) => d.testId === "test2")!;
 
     await test.step("Entradas: GET /pet/{petId}", async () => {
@@ -126,11 +119,15 @@ test.describe.serial("PetStore API Tests", () => {
       expect(response.status(), "Status code debe ser 200").toBe(200);
       expect(responseBody.id, "ID debe coincidir con el creado").toBe(petId);
       expect(responseBody.name, `Nombre debe ser ${csv.name}`).toBe(csv.name);
-      expect(responseBody.status, `Status debe ser ${csv.status}`).toBe(csv.status);
+      expect(responseBody.status, `Status debe ser ${csv.status}`).toBe(
+        csv.status,
+      );
     });
   });
 
-  test('TC-03: Actualizar el nombre de la mascota y el estatus a "sold"', async ({ request }) => {
+  test('TC-03: Actualizar el nombre de la mascota y el estatus a "sold"', async ({
+    request,
+  }) => {
     const csv = testData.find((d) => d.testId === "test3")!;
     const requestBody = {
       id: petId,
@@ -147,7 +144,12 @@ test.describe.serial("PetStore API Tests", () => {
         url: `${BASE_URL}/pet`,
         headers: { "Content-Type": "application/json" },
         body: requestBody,
-        variables: { petId, previousName: petName, newName: csv.newName, newStatus: csv.newStatus },
+        variables: {
+          petId,
+          previousName: petName,
+          newName: csv.newName,
+          newStatus: csv.newStatus,
+        },
         csvSource: "petstore-tests.csv → test3",
       });
     });
@@ -181,27 +183,38 @@ test.describe.serial("PetStore API Tests", () => {
     await test.step("Assertions", async () => {
       expect(response.status(), "Status code debe ser 200").toBe(200);
       expect(responseBody.id, "ID debe mantenerse igual").toBe(petId);
-      expect(responseBody.name, `Nombre debe ser ${csv.newName}`).toBe(csv.newName);
-      expect(responseBody.status, `Status debe ser ${csv.newStatus}`).toBe(csv.newStatus);
+      expect(responseBody.name, `Nombre debe ser ${csv.newName}`).toBe(
+        csv.newName,
+      );
+      expect(responseBody.status, `Status debe ser ${csv.newStatus}`).toBe(
+        csv.newStatus,
+      );
     });
   });
 
-  test("TC-04: Consultar la mascota modificada por estatus (Búsqueda por estatus)", async ({ request }) => {
+  test("TC-04: Consultar la mascota modificada por estatus (Búsqueda por estatus)", async ({
+    request,
+  }) => {
     const csv = testData.find((d) => d.testId === "test4")!;
 
-    await test.step("Entradas: GET /pet/findByStatus?status=" + csv.status, async () => {
-      attach(test.info(), "Request - GET /pet/findByStatus", {
-        method: "GET",
-        url: `${BASE_URL}/pet/findByStatus?status=${csv.status}`,
-        headers: { Accept: "application/json" },
-        queryParams: { status: csv.status },
-        variables: { petId, expectedName: petName },
-        csvSource: "petstore-tests.csv → test4",
-      });
-    });
+    await test.step(
+      "Entradas: GET /pet/findByStatus?status=" + csv.status,
+      async () => {
+        attach(test.info(), "Request - GET /pet/findByStatus", {
+          method: "GET",
+          url: `${BASE_URL}/pet/findByStatus?status=${csv.status}`,
+          headers: { Accept: "application/json" },
+          queryParams: { status: csv.status },
+          variables: { petId, expectedName: petName },
+          csvSource: "petstore-tests.csv → test4",
+        });
+      },
+    );
 
     const startTime = Date.now();
-    const response = await request.get(`${BASE_URL}/pet/findByStatus?status=${csv.status}`);
+    const response = await request.get(
+      `${BASE_URL}/pet/findByStatus?status=${csv.status}`,
+    );
     const duration = Date.now() - startTime;
     const responseBody = await response.json();
     const ourPet = responseBody.find((pet: any) => pet.id === petId);
@@ -227,13 +240,27 @@ test.describe.serial("PetStore API Tests", () => {
 
     await test.step("Assertions", async () => {
       expect(response.status(), "Status code debe ser 200").toBe(200);
-      expect(Array.isArray(responseBody), "Respuesta debe ser un array").toBeTruthy();
-      expect(responseBody.length, "Debe haber al menos una mascota").toBeGreaterThan(0);
+      expect(
+        Array.isArray(responseBody),
+        "Respuesta debe ser un array",
+      ).toBeTruthy();
+      expect(
+        responseBody.length,
+        "Debe haber al menos una mascota",
+      ).toBeGreaterThan(0);
 
-      const allMatchStatus = responseBody.every((pet: any) => pet.status === csv.status);
-      expect(allMatchStatus, `Todas las mascotas deben tener status "${csv.status}"`).toBeTruthy();
+      const allMatchStatus = responseBody.every(
+        (pet: any) => pet.status === csv.status,
+      );
+      expect(
+        allMatchStatus,
+        `Todas las mascotas deben tener status "${csv.status}"`,
+      ).toBeTruthy();
 
-      expect(ourPet, "Nuestra mascota debe estar en los resultados").toBeDefined();
+      expect(
+        ourPet,
+        "Nuestra mascota debe estar en los resultados",
+      ).toBeDefined();
       expect(ourPet.name, `Nombre debe ser ${csv.name}`).toBe(csv.name);
     });
   });

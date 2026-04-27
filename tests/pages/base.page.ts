@@ -7,15 +7,6 @@ export class BasePage {
     this.page = page;
   }
 
-  async goto(url: string): Promise<void> {
-    const response = await this.page.goto(url);
-    if (!response || !response.ok()) {
-      throw new Error(
-        `Error al navegar a ${url}: status ${response?.status() ?? "sin respuesta"}`,
-      );
-    }
-  }
-
   async waitForPageLoad(): Promise<void> {
     await this.page.waitForLoadState("domcontentloaded");
   }
@@ -35,7 +26,7 @@ export class BasePage {
   }
 
   /**
-   * Hace clic en un elemento verificando que sea visible primero
+   * Hace clic en un elemento verifcando que sea visible primero
    */
   async safeClick(locator: Locator, description: string): Promise<void> {
     await this.waitForElement(locator, description);
