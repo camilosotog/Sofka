@@ -66,7 +66,8 @@ Total de checks fallidos: 0
 
 CONCLUSIONES
 
-La prueba de carga fue exitosa. El endpoint de login de la API demostró ser capaz de manejar 20 solicitudes por segundo de forma sostenida durante 2 minutos sin presentar errores ni degradación de rendimiento.
+La prueba de carga fue exitosa. El endpoint de login de la API demostró ser capaz de manejar 20 solicitudes por segundo de forma 
+sostenida durante 2 minutos sin presentar errores ni degradación de rendimiento.
 
 Todos los umbrales definidos se cumplieron con margen:
 - La tasa de error fue 0% (umbral: menor a 3%)
@@ -76,4 +77,5 @@ Es necesario probar con cargas más altas para encontrar el punto de ruptura.
 
 Solo se utilizaron 16 VUs como máximo de los 30 disponibles, esto significa que la prueba no estresó al máximo la configuración definida.
 
-La tasa de error de 0% y el 100% de éxito en todos los checks demuestran que el endpoint es estable bajo las condiciones probadas. No hubo timeouts, errores de conexión ni respuestas inesperadas.
+La tasa de error de 0% y el 100% de éxito en todos los checks demuestran que el endpoint es estable bajo las condiciones probadas.
+No hubo timeouts, errores de conexión ni respuestas inesperadas.

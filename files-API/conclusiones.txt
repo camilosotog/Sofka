@@ -74,16 +74,22 @@ Variables compartidas:
 PROBLEMAS IDENTIFICADOS
 
 1. Código de respuesta en creación
-La API retorna 200 OK al crear una mascota (POST /pet). El estándar REST indica que debería retornar 201 Created para diferenciar una creación exitosa de una simple operación exitosa.
+La API retorna 200 OK al crear una mascota (POST /pet). El estándar REST indica que debería 
+retornar 201 Created para diferenciar una creación exitosa de una simple operación exitosa.
 
 2. Comportamiento upsert en PUT
-El endpoint PUT /pet no valida si el recurso existe previamente. Si se envía un ID inexistente, la API crea un nuevo recurso en lugar de retornar 404 Not Found. Esto puede generar datos duplicados o inconsistentes.
+El endpoint PUT /pet no valida si el recurso existe previamente. Si se envía un ID inexistente,
+la API crea un nuevo recurso en lugar de retornar 404 Not Found. Esto puede generar datos
+duplicados o inconsistentes.
 
 3. Sin autenticación obligatoria
-Los endpoints permiten crear, modificar y consultar mascotas sin autenticación. Aunque la API provee un mecanismo de API Key, no lo exige, lo que en un entorno productivo sería una vulnerabilidad de seguridad.
+Los endpoints permiten crear, modificar y consultar mascotas sin autenticación.
+Aunque la API provee un mecanismo de API Key, no lo exige, lo que en un entorno productivo
+sería una vulnerabilidad de seguridad.
 
 4. Sin validación de datos
-La API no valida campos obligatorios. Es posible crear una mascota sin nombre o sin photoUrls, lo cual podría generar datos incompletos en la base de datos.
+La API no valida campos obligatorios. Es posible crear una mascota sin nombre o sin photoUrls,
+lo cual podría generar datos incompletos en la base de datos.
 
 ---
 
