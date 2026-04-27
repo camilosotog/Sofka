@@ -1,0 +1,142 @@
+================================================================================
+                    REPORTE DE PRUEBA DE CARGA
+                        Login Load Test
+================================================================================
+
+FECHA: 21 de enero de 2026
+ENDPOINT: https://fakestoreapi.com/auth/login
+DURACIÓN: 2 minutos (120 segundos)
+RESULTADO: ✓ EXITOSO
+
+================================================================================
+                          RESUMEN EJECUTIVO
+================================================================================
+
+Se ejecutó satisfactoriamente una prueba de carga para validar el rendimiento 
+del endpoint de autenticación. La prueba simulo 20 iteraciones por segundo 
+durante 2 minutos utilizando 5 usuarios de prueba del archivo CSV.
+
+RESULTADO GENERAL: CUMPLE TODOS LOS UMBRALES ✓
+
+================================================================================
+                          MÉTRICAS PRINCIPALES
+================================================================================
+
+Total de Solicitudes HTTP:          2,400 exitosas (100%)
+Total de Iteraciones:               2,400 completadas
+Tasa de Error:                      0.00% (0 errores)
+Tasa de Solicitudes:                19.95 solicitudes/segundo
+
+Tiempo de Respuesta - Promedio:     360.91 ms
+Tiempo de Respuesta - Mínimo:       321.56 ms
+Tiempo de Respuesta - Máximo:       698.58 ms
+Tiempo de Respuesta - Mediana:      357.27 ms
+Tiempo de Respuesta - P90:          380.47 ms
+Tiempo de Respuesta - P95:          392.01 ms ✓ (Umbral: <1500ms)
+
+================================================================================
+                        VALIDACIONES DE UMBRAL
+================================================================================
+
+Nombre: http_req_duration (P95)
+Condición: Percentil 95 < 1500 ms
+Resultado: 392.01 ms
+Estado: ✓ CUMPLE
+
+Nombre: error_rate
+Condición: Tasa de error < 3%
+Resultado: 0.00%
+Estado: ✓ CUMPLE
+
+================================================================================
+                          VALIDACIONES DE CHECKS
+================================================================================
+
+✓ Status es 2xx                          7,200 / 7,200 (100%)
+✓ Tiempo de respuesta < 1500ms           7,200 / 7,200 (100%)
+✓ Respuesta contiene token               7,200 / 7,200 (100%)
+
+TOTAL DE CHECKS: 7,200 / 7,200 completados exitosamente
+
+================================================================================
+                      ESTADÍSTICAS DE EJECUCIÓN
+================================================================================
+
+Configuración de Escenario:
+  - Tipo: constant-arrival-rate
+  - Tasa: 20 iteraciones por segundo
+  - Duración: 2 minutos
+  - VUs Prelocalizados: 30
+  - VUs Máximos: 50
+
+VUs Utilizados:
+  - Mínimo: 6
+  - Promedio: 7
+  - Máximo: 14
+  - Máximo Configurado: 30
+
+Usuarios de Prueba:
+  - Cantidad cargada del CSV: 5
+
+================================================================================
+                        CONSUMO DE RED
+================================================================================
+
+Datos Recibidos:                    1.5 MB (12 kB/s en promedio)
+Datos Enviados:                     324 kB (2.7 kB/s en promedio)
+
+Total de Datos Transferidos:        1.824 MB
+
+================================================================================
+                          CONCLUSIONES
+================================================================================
+
+✓ PRUEBA COMPLETADA EXITOSAMENTE
+
+El análisis de rendimiento del endpoint de autenticación revela:
+
+1. RENDIMIENTO EXCELENTE
+   - El tiempo promedio de respuesta (360.91 ms) está muy por debajo del 
+     umbral de 1,500 ms, indicando un rendimiento excepcional.
+
+2. CONFIABILIDAD 100%
+   - No se registraron errores en las 2,400 solicitudes realizadas.
+   - Tasa de error de 0.00%, cumpliendo el umbral <3%.
+
+3. CONSISTENCIA
+   - El percentil 95 (392.01 ms) demuestra consistencia en los tiempos 
+     de respuesta bajo carga.
+   - Variación mínima entre el mínimo (321.56 ms) y máximo (698.58 ms).
+
+4. VALIDACIONES
+   - El 100% de todas las solicitudes retornó status 2xx.
+   - El 100% de las respuestas cumplió con el tiempo máximo permitido.
+   - El 100% de las respuestas contenían el token esperado.
+
+5. ESCALABILIDAD
+   - El sistema utilizó en promedio 7 VUs de los 30 prelocalizados,
+     indicando capacidad de escalado adicional.
+
+================================================================================
+                        RECOMENDACIONES
+================================================================================
+
+✓ APROBADO PARA PRODUCCIÓN
+
+El endpoint de login está listo para producción y puede manejar 
+satisfactoriamente cargas de 20 iteraciones por segundo. Se recomienda:
+
+1. Continuar monitoreando el rendimiento en producción
+2. Realizar pruebas periódicas de carga para validar consistencia
+3. Considerar pruebas con mayor carga (>20 iter/s) para determinar 
+   puntos de ruptura
+4. Mantener logs y métricas para análisis histórico
+
+================================================================================
+                    FIN DEL REPORTE
+================================================================================
+
+Generado: 21 de enero de 2026
+Herramienta: k6 (Grafana k6)
+Versión: 0.50.0
+Arquitectura: local execution

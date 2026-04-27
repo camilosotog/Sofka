@@ -1,0 +1,32 @@
+Métrica,Valor,Unidad,Estado
+Total de Solicitudes,2400,solicitudes,✓ Exitoso
+Solicitudes Exitosas,2400,solicitudes,✓ 100%
+Solicitudes Fallidas,0,solicitudes,✓ 0%
+Tasa de Error,0.00,%,✓ Cumple (<3%)
+Tasa de Solicitudes,19.95,solicitudes/segundo,✓ Cumple
+Tiempo Promedio,360.91,millisegundos,✓ Excelente
+Tiempo Mínimo,321.56,millisegundos,✓ Excelente
+Tiempo Máximo,698.58,millisegundos,✓ Cumple
+Tiempo Mediana,357.27,millisegundos,✓ Excelente
+Percentil 90,380.47,millisegundos,✓ Excelente
+Percentil 95,392.01,millisegundos,✓ Cumple (<1500ms)
+Total de Iteraciones,2400,iteraciones,✓ Completadas
+Total de Checks,7200,checks,✓ 100% exitosos
+Checks Status 2xx,7200,checks,✓ 100%
+Checks Tiempo <1500ms,7200,checks,✓ 100%
+Checks Token Presente,7200,checks,✓ 100%
+Duración de Prueba,120,segundos,✓ Completada
+VUs Promedio,7,usuarios virtuales,✓ Óptimo
+VUs Mínimo,6,usuarios virtuales,✓ Óptimo
+VUs Máximo,14,usuarios virtuales,✓ Dentro de límite (50)
+VUs Prelocalizados,30,usuarios virtuales,✓ Configurado
+VUs Máximos Permitidos,50,usuarios virtuales,✓ Configurado
+Datos Recibidos,1.5,MB,✓ Normal
+Datos Enviados,324,KB,✓ Normal
+Datos Recibidos Promedio,12,kB/s,✓ Normal
+Datos Enviados Promedio,2.7,kB/s,✓ Normal
+Usuarios CSV,5,usuarios,✓ Cargados
+Tasa de Llegada,20,iteraciones/segundo,✓ Configurado
+Tiempo Límite Conexión,5,segundos,✓ Configurado
+Umbral P95 Duración,<1500,millisegundos,✓ Cumple
+Umbral Tasa Error,<3,%,✓ Cumple
